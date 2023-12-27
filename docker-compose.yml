@@ -8,11 +8,15 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_DB=sentryc_interview
+    networks:
+      - elastic
 
   redis:
     image: "redis:latest"
     ports:
       - "6379:6379"
+    networks:
+      - elastic
 
   app:
     container_name: seller
@@ -23,5 +27,12 @@ services:
     depends_on:
       - postgresqldb
       - redis
+    environment:
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+    networks:
+      - elastic
 
-
+networks:
+  elastic:
+    driver: bridge
