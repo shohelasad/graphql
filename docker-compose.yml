@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+  postgresqldb:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=sentryc_interview
+
+  redis:
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
+
+  app:
+    container_name: seller
+    image: seller
+    build: ./
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgresqldb
+      - redis
+
+
