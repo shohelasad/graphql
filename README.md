@@ -14,6 +14,7 @@
 * Flyway
 
 ## Approach
+* Initiated a Spring Boot maven project in domain driven design (products, markets and sales)
 * Created a search query API with Query { sellers(filter: SellerFilter, page: PageInput,  sortBy: SellerSortBy): SellerPageableResponse! }
 * Prepared SellerPageableResponse DTO object for query response with pagination meta information
 * Implemented Flyway for creating table schema migration and preparing test data
