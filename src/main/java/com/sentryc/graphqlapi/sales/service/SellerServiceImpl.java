@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -30,8 +31,7 @@ public class SellerServiceImpl implements SellerService {
         this.sellerRepository = sellerRepository;
     }
 
-    @Cacheable(value = "sellers", key = "#filter != null ? #filter.hashCode() : 'null' + '_' + #pageInput != null ? " +
-            "#pageInput.hashCode() : 'null' + '_' + #sortBy != null ? #sortBy.hashCode() : 'null'")
+    @Cacheable(value = "sellers", key = "T(java.util.Objects).hash(#filter, #pageInput?.page(), #pageInput?.size(), #sortBy)")
     @Override
     public SellerPageableResponse getSellers(SellerFilter filter, PageInput pageInput, SellerSortBy sortBy) {
         log.info("Preparing specification with seller filter: {}, page input: {} and sort by: {}", filter, pageInput, sortBy);
@@ -49,5 +49,4 @@ public class SellerServiceImpl implements SellerService {
 
         return new SellerPageableResponse(pageMeta, sellers);
     }
-
 }
