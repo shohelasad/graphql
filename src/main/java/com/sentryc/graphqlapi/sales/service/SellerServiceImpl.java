@@ -7,7 +7,6 @@ import com.sentryc.graphqlapi.sales.domains.SellerInfo;
 import com.sentryc.graphqlapi.sales.repositories.SellerRepository;
 import com.sentryc.graphqlapi.sales.dto.*;
 
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,11 +26,8 @@ import java.util.List;
 public class SellerServiceImpl implements SellerService {
     private final SellerRepository sellerRepository;
 
-    private final CacheManager cacheManager;
-
-    public SellerServiceImpl(SellerRepository sellerRepository, CacheManager cacheManager) {
+    public SellerServiceImpl(SellerRepository sellerRepository) {
         this.sellerRepository = sellerRepository;
-        this.cacheManager = cacheManager;
     }
 
     @Cacheable(value = "sellers", key = "#filter != null ? #filter.hashCode() : 'null' + '_' + #pageInput != null ? " +
