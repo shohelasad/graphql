@@ -1,4 +1,4 @@
 #set profile
 spring:
   profiles:
-    active: prod
+    active: dev

@@ -34,28 +34,12 @@ public class SellerServiceImpl implements SellerService {
         this.cacheManager = cacheManager;
     }
 
-    /*@Cacheable(value = "sellers", key = "#filter.hashCode() + #page.hashCode() + #sortBy.hashCode()")
-    @Override
-    public SellerPageableResponse getSellers(SellerFilter filter, PageInput pageInput, SellerSortBy sortBy) {
-        log.info("Preparing specification with seller filter: {}", filter);
-        Specification<SellerInfo> specification = FilterUtil.createSpecification(filter);
-        Pageable pageable = PageRequest.of(pageInput.page(), pageInput.size(), SortingUtil.getSort(sortBy));
-        Page<SellerInfo> sellerInfos = sellerRepository.findAll(specification, pageable);
-        log.info("Retrieved seller infos with filter: {}", sellerInfos);
-        PageMeta pageMeta = new PageMeta(sellerInfos.getTotalElements(), sellerInfos.getTotalPages(),
-                sellerInfos.getNumber(), sellerInfos.getSize());
-        List<Seller> sellers = DtoMapper.mapToSellers(sellerInfos.getContent());
-
-        return new SellerPageableResponse(pageMeta, sellers);
-    }*/
-
     @Cacheable(value = "sellers", key = "#filter != null ? #filter.hashCode() : 'null' + '_' + #pageInput != null ? " +
             "#pageInput.hashCode() : 'null' + '_' + #sortBy != null ? #sortBy.hashCode() : 'null'")
     @Override
     public SellerPageableResponse getSellers(SellerFilter filter, PageInput pageInput, SellerSortBy sortBy) {
-        log.info("Preparing specification with seller filter: {}", filter);
+        log.info("Preparing specification with seller filter: {}, page input: {} and sort by: {}", filter, pageInput, sortBy);
 
-        // Add null checks for filter, pageInput, and sortBy
         Specification<SellerInfo> specification = FilterUtil.createSpecification(filter);
         Pageable pageable = PageRequest.of(pageInput != null ? pageInput.page() : 0, pageInput != null ? pageInput.size() : 10, SortingUtil.getSort(sortBy));
 
