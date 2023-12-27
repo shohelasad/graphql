@@ -14,14 +14,14 @@
 * Flyway
 
 ## Approach
-* Create a search query API with  Query { sellers(filter: SellerFilter, page: PageInput,  sortBy: SellerSortBy): SellerPageableResponse! }
+* Create a search query API with Query { sellers(filter: SellerFilter, page: PageInput,  sortBy: SellerSortBy): SellerPageableResponse! }
 * Prepare SellerPageableResponse DTO object for query response with pagination meta information
 * Implement Flyway for creating table schema migration and preparing test data
-* I usually used H2 database for running test cases without docker in local machine. Here, I add postgresql config in application-test.yml as recommended to test with postgresql
-* Implement unit test case and integration test cases with JUnit 
-* For search optimization implemented database indexing for seller filter query
-* Implemented redis cache for optimization and scaling up the application
-* TODO: Implemented load balancer, rate limiter, kafka message queue and database sharding for scaling up
+* I usually used H2 database for running test cases without docker in local machine.However, I added postgresql config in application-test.yml as recommended in requirement to test with postgresql database
+* Implement unit test case and integration test cases with JUnit and GraphQlTester
+* Implemented database indexing for seller filter query performance optimization
+* Implemented redis cache for read optimization and scalability
+* TODO: Implemented load balancer, rate limiter, kafka message queue and database sharding for scalability
 
 ## How to run
 
